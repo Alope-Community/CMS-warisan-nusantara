@@ -16,7 +16,7 @@ export default function Navbar({ active }) {
           <div className="text-sm">
             <ul className="flex gap-5">
               <li className={active == 1 ? "font-semibold" : ""}>
-                <Link href={"/"} className="flex items-center gap-1">
+                <Link href={"/dashboard"} className="flex items-center gap-1">
                   <IconDashboard className="w-5" />
                   Dashboard
                 </Link>

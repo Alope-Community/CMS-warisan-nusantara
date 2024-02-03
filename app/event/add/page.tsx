@@ -58,6 +58,21 @@ export default function AddEvent() {
 
           <div className="grid grid-cols-6 mt-10 gap-5">
             <div className="mb-5 col-span-6">
+              <label htmlFor="banner">Banner</label>
+              <img src="./img-placeholder.png" alt="" />
+              <input
+                type="file"
+                className="border px-3 py-2 rounded w-full"
+                id="banner"
+                onBlur={(e) => {
+                  setData({
+                    ...data,
+                    title: e.target.value,
+                  });
+                }}
+              />
+            </div>
+            <div className="mb-5 col-span-6">
               <label htmlFor="title">Title</label>
               <input
                 type="text"
