@@ -1,13 +1,16 @@
-import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+"use client";
+// import type { Metadata } from "next";
+// import { Inter } from "next/font/google";
 import "./globals.css";
 
-const inter = Inter({ subsets: ["latin"] });
+// const inter = Inter({ subsets: ["latin"] });
 
-export const metadata: Metadata = {
-  title: "Warisan Nusantara",
-  description: "Mari lestarikan budaya nenek moyang",
-};
+import { AppProgressBar as ProgressBar } from "next-nprogress-bar";
+
+// export const metadata: Metadata = {
+//   title: "Warisan Nusantara",
+//   description: "Mari lestarikan budaya nenek moyang",
+// };
 
 export default function RootLayout({
   children,
@@ -20,9 +23,10 @@ export default function RootLayout({
         style={{
           backgroundColor: "#f9fafb",
         }}
-        className={inter.className}
+        // className={inter.className}
       >
         {children}
+        <ProgressBar height="5px" color="#ef4444" shallowRouting />
       </body>
     </html>
   );

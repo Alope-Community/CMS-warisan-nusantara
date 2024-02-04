@@ -8,7 +8,7 @@ import { IconArchive, IconCalendar, IconDashboard } from "@irsyadadl/paranoid";
 export default function Navbar({ active }) {
   return (
     <>
-      <nav className="flex justify-between items-center px-20 py-3 shadow">
+      <nav className="flex justify-between items-center px-20 py-3 shadow bg-white">
         <div className="flex items-center">
           <div className="mr-10">
             <h1 className="font-semibold text-xl">Warisan Nusantara</h1>

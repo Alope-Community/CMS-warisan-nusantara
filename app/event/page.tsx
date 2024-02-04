@@ -91,11 +91,11 @@ export default function Event() {
                       <td className="py-10 pl-5">{index + 1}</td>
                       <td className="px-5">
                         <Image
-                          src={"/2.jpg"}
+                          src={"/img-placeholder.png"}
                           width={70}
-                          height={70}
-                          alt="Avatar"
-                          className="object-cover rounded"
+                          height={100}
+                          alt="bannerEvent"
+                          className="object-cover rounded w-[70px] h-[70px]"
                         />
                       </td>
                       <td className="px-5">{event.title}</td>
