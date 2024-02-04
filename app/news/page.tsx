@@ -19,7 +19,7 @@ export default function News() {
             <h2 className="text-2xl font-bold tracking-wider">NEWS</h2>
 
             <Link
-              href={"/"}
+              href={"/news/add"}
               className="flex items-center gap-2 bg-gray-800 px-5 py-2 rounded text-gray-100 text-xs hover:bg-gray-700"
             >
               <IconPlus className="w-3" />
