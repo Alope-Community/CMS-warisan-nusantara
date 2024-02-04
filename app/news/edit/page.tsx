@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function NewsAdd() {
+export default function NewsEdit() {
   return (
     <div>
       {" "}

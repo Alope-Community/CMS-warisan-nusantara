@@ -88,10 +88,10 @@ export default function News() {
                 <td className="px-5">Ilham Hafidz</td>
                 <td className="px-5">
                   <div className="flex gap-2">
-                    <button className="bg-indigo-500 flex gap-1 text-gray-100 px-3 py-1 rounded text-xs items-center">
+                    <Link href={"/news/edit"} className="bg-indigo-500 flex gap-1 text-gray-100 px-3 py-1 rounded text-xs items-center">
                       <IconPencilBox className="w-4" />
                       Edit
-                    </button>
+                    </Link>
                     <button className="bg-red-500 flex gap-1 text-gray-100 px-3 py-1 rounded text-xs items-center">
                       <IconTrashEmpty className="w-4" />
                       Delete
