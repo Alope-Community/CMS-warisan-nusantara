@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
@@ -12,6 +12,7 @@ import Navbar from "@/components/Navbar";
 
 //api
 import { insertEvent } from "@/api/Event";
+import uploadFile from "@/api/_UploadFile";
 
 export default function AddEvent() {
   const router = useRouter();
@@ -29,19 +30,53 @@ export default function AddEvent() {
     for: "",
   });
 
-  const insertDataEvent = async () => {
-    let result = await insertEvent(data);
+  const [imagePlaceholder, setImagePlaceholder] = useState("");
+  const [imageFile, setImageFile] = useState("");
+
+  const handleChange = (e: any) => {
+    setImageFile(e.target.files[0]);
+
+    if (e.target.files && e.target.files[0]) {
+      let reader = new FileReader();
+
+      reader.onload = (e: { target: any }) => {
+        setImagePlaceholder(e.target.result);
+      };
+
+      reader.readAsDataURL(e.target.files[0]);
+    }
+  };
+
+  const checkSubmit = (e: any) => {
+    e.preventDefault();
+
+    const formData = new FormData();
+
+    formData.append("image", imageFile);
+
+    uploadDataFile(formData);
+  };
+
+  const uploadDataFile = async (formData: any) => {
+    let result = await uploadFile(formData);
+    if (result) {
+      if (result.data.status_code == "WN-01") {
+        setData({
+          ...data,
+          banner: result.data.fileName,
+        });
+
+        insertDataEvent(result.data.fileName);
+      }
+    }
+  };
+
+  const insertDataEvent = async (fileName: String) => {
+    let result = await insertEvent(data, fileName);
     if (result) {
       router.push("/event");
     }
   };
-
-  const checkSubmit = () => {
-    insertDataEvent();
-  };
-
-  const [imagePlaceholder, setImagePlaceholder] = useState("");
-  const [imageFile, setImageFile] = useState("");
 
   return (
     <>
@@ -61,209 +96,201 @@ export default function AddEvent() {
             </Link>
           </div>
 
-          <div className="grid grid-cols-4 gap-10 mt-10 ">
-            <div className="grid-cols-1">
-              <div className="mb-5 col-span-6">
-                <label htmlFor="banner">Banner</label>
-                <label htmlFor="banner">
-                  <img
-                    src={
-                      imagePlaceholder
-                        ? imagePlaceholder
-                        : "/img-placeholder.png"
-                    }
-                    alt="bannerEvent"
-                    className="rounded cursor-pointer w-[700px] h-[300px] object-cover mx-auto"
+          <form onSubmit={checkSubmit}>
+            <div className="grid grid-cols-4 gap-10 mt-10 ">
+              <div className="grid-cols-1">
+                <div className="mb-5 col-span-6">
+                  <label htmlFor="banner">Banner</label>
+                  <label htmlFor="banner">
+                    <img
+                      src={
+                        imagePlaceholder
+                          ? imagePlaceholder
+                          : "/img-placeholder.png"
+                      }
+                      alt="bannerEvent"
+                      className="rounded cursor-pointer w-[700px] h-[300px] object-cover mx-auto"
+                    />
+                  </label>
+                  <input
+                    type="file"
+                    className="border px-3 py-2 rounded w-full mt-5 hidden"
+                    id="banner"
+                    onChange={(e) => handleChange(e)}
                   />
-                </label>
-                <input
-                  type="file"
-                  className="border px-3 py-2 rounded w-full mt-5 hidden"
-                  id="banner"
-                  onChange={(e: { target: any }) => {
-                    setImageFile(e.target.files[0]);
-                    if (e.target.files && e.target.files[0]) {
-                      let reader = new FileReader();
+                  {imagePlaceholder ? (
+                    <div className="flex gap-2 mt-5 justify-center">
+                      <label
+                        htmlFor="banner"
+                        className="text-xs bg-gray-800 hover:bg-gray-700 px-5 py-2 rounded text-white"
+                      >
+                        Change Banner
+                      </label>
+                      <button
+                        className="text-xs bg-red-500 hover:bg-red-400 px-5 py-2 rounded text-white"
+                        onClick={() => {
+                          setImagePlaceholder("");
+                          setImageFile("");
+                        }}
+                      >
+                        Delete Banner
+                      </button>
+                    </div>
+                  ) : (
+                    ""
+                  )}
+                </div>
+              </div>
+              <div className="grid gap-5 grid-cols-6 col-span-3">
+                <div className="mb-5 col-span-6">
+                  <label htmlFor="title">Title</label>
+                  <input
+                    type="text"
+                    className="border px-3 py-2 rounded w-full"
+                    id="title"
+                    onBlur={(e) => {
+                      setData({
+                        ...data,
+                        title: e.target.value,
+                      });
+                    }}
+                  />
+                </div>
+                <div className="mb-5 col-span-6">
+                  <label htmlFor="description">Description</label>
+                  <textarea
+                    className="border px-3 py-2 rounded w-full h-[150px]"
+                    id="description"
+                    onBlur={(e) => {
+                      setData({
+                        ...data,
+                        description: e.target.value,
+                      });
+                    }}
+                  ></textarea>
+                </div>
+                <div className="mb-5  col-span-2">
+                  <label htmlFor="fee">Fee</label>
+                  <input
+                    type="text"
+                    className="border px-3 py-2 rounded w-full"
+                    id="fee"
+                    onBlur={(e) => {
+                      setData({
+                        ...data,
+                        fee: e.target.value,
+                      });
+                    }}
+                  />
+                </div>
+                <div className="mb-5 col-span-2">
+                  <label htmlFor="location">Location</label>
+                  <input
+                    type="text"
+                    className="border px-3 py-2 rounded w-full"
+                    id="location"
+                    onBlur={(e) => {
+                      setData({
+                        ...data,
+                        location: e.target.value,
+                      });
+                    }}
+                  />
+                </div>
 
-                      reader.onload = (e: { target: any }) => {
-                        setImagePlaceholder(e.target.result);
-                      };
+                <div className="mb-5 col-span-2">
+                  <label htmlFor="for">For</label>
+                  <select
+                    id="for"
+                    className="w-full px-3 py-3 rounded bg-white border"
+                    onBlur={(e) => {
+                      setData({
+                        ...data,
+                        for: e.target.value,
+                      });
+                    }}
+                  >
+                    <option value="all ages">All Ages</option>
+                    <option value="mature">Mature</option>
+                  </select>
+                </div>
 
-                      reader.readAsDataURL(e.target.files[0]);
-                    }
-                  }}
-                />
-                {imagePlaceholder ? (
-                  <div className="flex gap-2 mt-5 justify-center">
-                    <label
-                      htmlFor="banner"
-                      className="text-xs bg-gray-800 hover:bg-gray-700 px-5 py-2 rounded text-white"
-                    >
-                      Change Banner
-                    </label>
-                    <button
-                      className="text-xs bg-red-500 hover:bg-red-400 px-5 py-2 rounded text-white"
-                      onClick={() => {
-                        setImagePlaceholder("");
-                        setImageFile("");
-                      }}
-                    >
-                      Delete Banner
-                    </button>
-                  </div>
-                ) : (
-                  ""
-                )}
+                <div className="mb-5 col-span-2">
+                  <label htmlFor="for">Started Date</label>
+                  <input
+                    type="date"
+                    onChange={(e) => {
+                      setData({
+                        ...data,
+                        startedDate: e.target.value,
+                      });
+                    }}
+                    className="w-full px-3 py-3 rounded bg-white border"
+                  />
+                </div>
+                <div className="mb-5 col-span-1">
+                  <label htmlFor="for">Started Time</label>
+                  <input
+                    type="time"
+                    onChange={(e) => {
+                      setData({
+                        ...data,
+                        startedTime: e.target.value,
+                      });
+                    }}
+                    className="w-full px-3 py-3 rounded bg-white border"
+                  />
+                </div>
+
+                <div className="mb-5 col-span-2">
+                  <label htmlFor="for">Ended Date</label>
+                  <input
+                    type="date"
+                    onChange={(e) => {
+                      setData({
+                        ...data,
+                        endedDate: e.target.value,
+                      });
+                    }}
+                    className="w-full px-3 py-3 rounded bg-white border"
+                  />
+                </div>
+                <div className="mb-5 col-span-1">
+                  <label htmlFor="for">Ended Time</label>
+                  <input
+                    type="time"
+                    onChange={(e) => {
+                      setData({
+                        ...data,
+                        endedTime: e.target.value,
+                      });
+                    }}
+                    className="w-full px-3 py-3 rounded bg-white border"
+                  />
+                </div>
+
+                <div className="flex gap-3 mt-10 justify-end col-span-6">
+                  <button
+                    className="flex items-center gap-2 border border-gray-800 px-5 py-2 rounded text-gray-800 hover:bg-gray-700 hover:text-gray-200"
+                    onClick={() => {
+                      // checkSubmit();
+                    }}
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    className="flex items-center gap-2 bg-gray-800 px-5 py-2 rounded text-gray-100 hover:bg-gray-700"
+                    type="submit"
+                    onClick={() => {
+                      checkSubmit;
+                    }}
+                  >
+                    Submit
+                  </button>
+                </div>
               </div>
             </div>
-            <div className="grid gap-5 grid-cols-6 col-span-3">
-              <div className="mb-5 col-span-6">
-                <label htmlFor="title">Title</label>
-                <input
-                  type="text"
-                  className="border px-3 py-2 rounded w-full"
-                  id="title"
-                  onBlur={(e) => {
-                    setData({
-                      ...data,
-                      title: e.target.value,
-                    });
-                  }}
-                />
-              </div>
-              <div className="mb-5 col-span-6">
-                <label htmlFor="description">Description</label>
-                <textarea
-                  className="border px-3 py-2 rounded w-full h-[150px]"
-                  id="description"
-                  onBlur={(e) => {
-                    setData({
-                      ...data,
-                      description: e.target.value,
-                    });
-                  }}
-                ></textarea>
-              </div>
-              <div className="mb-5  col-span-2">
-                <label htmlFor="fee">Fee</label>
-                <input
-                  type="text"
-                  className="border px-3 py-2 rounded w-full"
-                  id="fee"
-                  onBlur={(e) => {
-                    setData({
-                      ...data,
-                      fee: e.target.value,
-                    });
-                  }}
-                />
-              </div>
-              <div className="mb-5 col-span-2">
-                <label htmlFor="location">Location</label>
-                <input
-                  type="text"
-                  className="border px-3 py-2 rounded w-full"
-                  id="location"
-                  onBlur={(e) => {
-                    setData({
-                      ...data,
-                      location: e.target.value,
-                    });
-                  }}
-                />
-              </div>
-
-              <div className="mb-5 col-span-2">
-                <label htmlFor="for">For</label>
-                <select
-                  id="for"
-                  className="w-full px-3 py-3 rounded bg-white border"
-                  onBlur={(e) => {
-                    setData({
-                      ...data,
-                      for: e.target.value,
-                    });
-                  }}
-                >
-                  <option value="all ages">All Ages</option>
-                  <option value="mature">Mature</option>
-                </select>
-              </div>
-
-              <div className="mb-5 col-span-2">
-                <label htmlFor="for">Started Date</label>
-                <input
-                  type="date"
-                  onChange={(e) => {
-                    setData({
-                      ...data,
-                      startedDate: e.target.value,
-                    });
-                  }}
-                  className="w-full px-3 py-3 rounded bg-white border"
-                />
-              </div>
-              <div className="mb-5 col-span-1">
-                <label htmlFor="for">Started Time</label>
-                <input
-                  type="time"
-                  onChange={(e) => {
-                    setData({
-                      ...data,
-                      startedTime: e.target.value,
-                    });
-                  }}
-                  className="w-full px-3 py-3 rounded bg-white border"
-                />
-              </div>
-
-              <div className="mb-5 col-span-2">
-                <label htmlFor="for">Ended Date</label>
-                <input
-                  type="date"
-                  onChange={(e) => {
-                    setData({
-                      ...data,
-                      endedDate: e.target.value,
-                    });
-                  }}
-                  className="w-full px-3 py-3 rounded bg-white border"
-                />
-              </div>
-              <div className="mb-5 col-span-1">
-                <label htmlFor="for">Ended Time</label>
-                <input
-                  type="time"
-                  onChange={(e) => {
-                    setData({
-                      ...data,
-                      endedTime: e.target.value,
-                    });
-                  }}
-                  className="w-full px-3 py-3 rounded bg-white border"
-                />
-              </div>
-
-              <div className="flex gap-3 mt-10 justify-end col-span-6">
-                <button
-                  className="flex items-center gap-2 border border-gray-800 px-5 py-2 rounded text-gray-800 hover:bg-gray-700 hover:text-gray-200"
-                  onClick={() => {
-                    checkSubmit();
-                  }}
-                >
-                  Cancel
-                </button>
-                <button
-                  className="flex items-center gap-2 bg-gray-800 px-5 py-2 rounded text-gray-100 hover:bg-gray-700"
-                  onClick={() => {
-                    checkSubmit();
-                  }}
-                >
-                  Submit
-                </button>
-              </div>
-            </div>
-          </div>
+          </form>
         </section>
       </main>
     </>

@@ -24,10 +24,20 @@ export const getEventById = async (id: Number) => {
   }
 };
 
-export const insertEvent = async (data: any) => {
+export const insertEvent = async (data: any, fileName: String) => {
   try {
-    let result = await axios.post(`http://127.0.0.1:8000/api/event`, data);
-
+    let result = await axios.post(`http://127.0.0.1:8000/api/event`, {
+      title: data.title,
+      description: data.description,
+      banner: fileName,
+      startedDate: data.startedDate,
+      startedTime: data.startedTime,
+      endedDate: data.endedDate,
+      endedTime: data.endedTime,
+      fee: data.fee,
+      location: data.location,
+      for: data.for,
+    });
     if (result) {
       return result;
     }
@@ -36,12 +46,20 @@ export const insertEvent = async (data: any) => {
   }
 };
 
-export const updateEvent = async (data: any, id: Number) => {
+export const updateEvent = async (data: any, id: Number, fileName: String) => {
   try {
-    let result = await axios.patch(
-      `http://127.0.0.1:8000/api/event/${id}`,
-      data
-    );
+    let result = await axios.patch(`http://127.0.0.1:8000/api/event/${id}`, {
+      title: data.title,
+      description: data.description,
+      banner: fileName,
+      startedDate: data.startedDate,
+      startedTime: data.startedTime,
+      endedDate: data.endedDate,
+      endedTime: data.endedTime,
+      fee: data.fee,
+      location: data.location,
+      for: data.for,
+    });
 
     if (result) {
       return result;

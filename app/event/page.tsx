@@ -21,6 +21,7 @@ import ConfirmDelete from "@/components/ConfirmDelete";
 interface Event {
   id: number;
   title: string;
+  banner: string;
   description: string;
 }
 
@@ -91,7 +92,11 @@ export default function Event() {
                       <td className="py-10 pl-5">{index + 1}</td>
                       <td className="px-5">
                         <Image
-                          src={"/img-placeholder.png"}
+                          src={
+                            event.banner
+                              ? `http://127.0.0.1:8000/storage/images/${event.banner}`
+                              : "/img-placeholder.png"
+                          }
                           width={70}
                           height={100}
                           alt="bannerEvent"
