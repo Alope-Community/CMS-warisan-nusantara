@@ -1,14 +1,12 @@
 "use client";
 
-import {
-  IconLoader2,
-  IconPencilBox,
-  IconPlus,
-  IconTrashEmpty,
-} from "@irsyadadl/paranoid";
 import Image from "next/image";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
+
+//
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 //api
 import { getEvent, deleteEvent } from "@/api/Event";
@@ -16,6 +14,14 @@ import { getEvent, deleteEvent } from "@/api/Event";
 // components
 import Navbar from "@/components/Navbar";
 import ConfirmDelete from "@/components/ConfirmDelete";
+
+// icons
+import {
+  IconLoader2,
+  IconPencilBox,
+  IconPlus,
+  IconTrashEmpty,
+} from "@irsyadadl/paranoid";
 
 //
 interface Event {
@@ -55,9 +61,14 @@ export default function Event() {
     }
   };
 
+  // const notify = () => toast("Wow so easy!");
+
   return (
     <>
       <Navbar active={3} />
+
+      {/* <button onClick={notify}>Notify!</button>
+      <ToastContainer /> */}
 
       <main className="px-20 mt-10">
         <section className="shadow bg-white p-7 rounded mb-10">

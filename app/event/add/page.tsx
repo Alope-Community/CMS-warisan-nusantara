@@ -9,13 +9,24 @@ import { IconChevronLeft } from "@irsyadadl/paranoid";
 
 // components
 import Navbar from "@/components/Navbar";
+import Loading from "@/components/Loading";
 
 //api
 import { insertEvent } from "@/api/Event";
 import uploadFile from "@/api/_UploadFile";
 
+interface apiResponse {
+  data: {
+    status_code: string;
+    fileName: string;
+    data: any;
+  };
+}
+
 export default function AddEvent() {
   const router = useRouter();
+
+  const [loading, isLoading] = useState(false);
 
   const [data, setData] = useState({
     title: "",
@@ -34,6 +45,11 @@ export default function AddEvent() {
   const [imageFile, setImageFile] = useState("");
 
   const handleChange = (e: any) => {
+    setValidation({
+      ...validation,
+      banner: "",
+    });
+
     setImageFile(e.target.files[0]);
 
     if (e.target.files && e.target.files[0]) {
@@ -50,15 +66,46 @@ export default function AddEvent() {
   const checkSubmit = (e: any) => {
     e.preventDefault();
 
-    const formData = new FormData();
+    let validator = {
+      title: "",
+      description: "",
+      banner: "",
+      startedDate: "",
+      startedTime: "",
+      endedDate: "",
+      endedTime: "",
+      fee: "",
+      location: "",
+    };
 
-    formData.append("image", imageFile);
+    if (!data.title) validator.title = "Title is required!";
+    if (!data.description) validator.description = "Description is required!";
+    if (!data.startedDate) validator.startedDate = "Started Date is required!";
+    if (!data.startedTime) validator.startedTime = "Started Time is required!";
+    if (!data.endedDate) validator.endedDate = "Ended Date is required!";
+    if (!data.endedTime) validator.endedTime = "Ended Time is required!";
+    if (!data.fee) validator.fee = "Fee is required!";
+    if (!data.location) validator.location = "Location is required!";
+    if (!imagePlaceholder && !imageFile)
+      validator.banner = "Banner is required!";
 
-    uploadDataFile(formData);
+    // Periksa apakah semua nilai dari kunci-kunci di objek validator kosong
+    const isAllEmpty = Object.values(validator).every((value) => value === "");
+
+    if (isAllEmpty) {
+      const formData = new FormData();
+
+      formData.append("image", imageFile);
+
+      uploadDataFile(formData);
+    } else {
+      setValidation(validator);
+    }
   };
 
   const uploadDataFile = async (formData: any) => {
-    let result = await uploadFile(formData);
+    isLoading(true);
+    let result = (await uploadFile(formData)) as apiResponse;
     if (result) {
       if (result.data.status_code == "WN-01") {
         setData({
@@ -72,15 +119,49 @@ export default function AddEvent() {
   };
 
   const insertDataEvent = async (fileName: String) => {
+    isLoading(true);
     let result = await insertEvent(data, fileName);
     if (result) {
+      isLoading(false);
       router.push("/event");
     }
   };
 
+  const resetForm = () => {
+    setData({
+      title: "",
+      description: "",
+      banner: "",
+      startedDate: "",
+      startedTime: "",
+      endedDate: "",
+      endedTime: "",
+      fee: "",
+      location: "",
+      for: "",
+    });
+
+    setImagePlaceholder("");
+    setImageFile("");
+  };
+
+  const [validation, setValidation] = useState({
+    title: "",
+    description: "",
+    banner: "",
+    startedDate: "",
+    startedTime: "",
+    endedDate: "",
+    endedTime: "",
+    fee: "",
+    location: "",
+  });
+
   return (
     <>
       <Navbar active={3} />
+
+      <Loading show={loading} />
 
       <main className="px-20 mt-10">
         <section className="shadow p-7 bg-white rounded mb-10">
@@ -139,6 +220,9 @@ export default function AddEvent() {
                   ) : (
                     ""
                   )}
+                  <small className="text-red-500 italic">
+                    {validation.banner}
+                  </small>
                 </div>
               </div>
               <div className="grid gap-5 grid-cols-6 col-span-3">
@@ -146,15 +230,23 @@ export default function AddEvent() {
                   <label htmlFor="title">Title</label>
                   <input
                     type="text"
-                    className="border px-3 py-2 rounded w-full"
+                    className={"border px-3 py-2 rounded w-full"}
                     id="title"
                     onBlur={(e) => {
                       setData({
                         ...data,
                         title: e.target.value,
                       });
+
+                      setValidation({
+                        ...validation,
+                        title: "",
+                      });
                     }}
                   />
+                  <small className="text-red-500 italic">
+                    {validation.title}
+                  </small>
                 </div>
                 <div className="mb-5 col-span-6">
                   <label htmlFor="description">Description</label>
@@ -166,8 +258,16 @@ export default function AddEvent() {
                         ...data,
                         description: e.target.value,
                       });
+
+                      setValidation({
+                        ...validation,
+                        description: "",
+                      });
                     }}
                   ></textarea>
+                  <small className="text-red-500 italic">
+                    {validation.description}
+                  </small>
                 </div>
                 <div className="mb-5  col-span-2">
                   <label htmlFor="fee">Fee</label>
@@ -180,8 +280,16 @@ export default function AddEvent() {
                         ...data,
                         fee: e.target.value,
                       });
+
+                      setValidation({
+                        ...validation,
+                        fee: "",
+                      });
                     }}
                   />
+                  <small className="text-red-500 italic">
+                    {validation.fee}
+                  </small>
                 </div>
                 <div className="mb-5 col-span-2">
                   <label htmlFor="location">Location</label>
@@ -194,8 +302,16 @@ export default function AddEvent() {
                         ...data,
                         location: e.target.value,
                       });
+
+                      setValidation({
+                        ...validation,
+                        location: "",
+                      });
                     }}
                   />
+                  <small className="text-red-500 italic">
+                    {validation.location}
+                  </small>
                 </div>
 
                 <div className="mb-5 col-span-2">
@@ -224,9 +340,17 @@ export default function AddEvent() {
                         ...data,
                         startedDate: e.target.value,
                       });
+
+                      setValidation({
+                        ...validation,
+                        startedDate: "",
+                      });
                     }}
                     className="w-full px-3 py-3 rounded bg-white border"
                   />
+                  <small className="text-red-500 italic">
+                    {validation.startedDate}
+                  </small>
                 </div>
                 <div className="mb-5 col-span-1">
                   <label htmlFor="for">Started Time</label>
@@ -237,9 +361,17 @@ export default function AddEvent() {
                         ...data,
                         startedTime: e.target.value,
                       });
+
+                      setValidation({
+                        ...validation,
+                        startedTime: "",
+                      });
                     }}
                     className="w-full px-3 py-3 rounded bg-white border"
                   />
+                  <small className="text-red-500 italic">
+                    {validation.startedTime}
+                  </small>
                 </div>
 
                 <div className="mb-5 col-span-2">
@@ -251,9 +383,17 @@ export default function AddEvent() {
                         ...data,
                         endedDate: e.target.value,
                       });
+
+                      setValidation({
+                        ...validation,
+                        endedDate: "",
+                      });
                     }}
                     className="w-full px-3 py-3 rounded bg-white border"
                   />
+                  <small className="text-red-500 italic">
+                    {validation.endedDate}
+                  </small>
                 </div>
                 <div className="mb-5 col-span-1">
                   <label htmlFor="for">Ended Time</label>
@@ -264,19 +404,28 @@ export default function AddEvent() {
                         ...data,
                         endedTime: e.target.value,
                       });
+
+                      setValidation({
+                        ...validation,
+                        endedTime: "",
+                      });
                     }}
                     className="w-full px-3 py-3 rounded bg-white border"
                   />
+                  <small className="text-red-500 italic">
+                    {validation.endedTime}
+                  </small>
                 </div>
 
                 <div className="flex gap-3 mt-10 justify-end col-span-6">
                   <button
                     className="flex items-center gap-2 border border-gray-800 px-5 py-2 rounded text-gray-800 hover:bg-gray-700 hover:text-gray-200"
+                    type="reset"
                     onClick={() => {
-                      // checkSubmit();
+                      resetForm();
                     }}
                   >
-                    Cancel
+                    Reset
                   </button>
                   <button
                     className="flex items-center gap-2 bg-gray-800 px-5 py-2 rounded text-gray-100 hover:bg-gray-700"
