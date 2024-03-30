@@ -18,6 +18,8 @@ import {
   IconPencilBox,
   IconPlus,
   IconTrashEmpty,
+  IconSearch,
+  IconRepost,
 } from "@irsyadadl/paranoid";
 
 //
@@ -37,9 +39,13 @@ export default function Event() {
 
   //
   const [page, setPage] = useState(1);
+  const [search, setSearch] = useState("");
+  const [searchBy, setSearchBy] = useState("Title");
+  const [condition, setCondition] = useState(1);
 
   const getDataEvent = async () => {
-    let result: any = await getEvent(page);
+    setLoading(true);
+    let result: any = await getEvent(search, page, condition);
     if (result) {
       setDataEvent(result.data.data.data);
       setPagination(result.data.data.links);
@@ -49,7 +55,7 @@ export default function Event() {
 
   useEffect(() => {
     getDataEvent();
-  }, [page]);
+  }, [search, page, condition]);
 
   // delete
   const [confirmDelete, setConfirmDelete] = useState({
@@ -62,6 +68,13 @@ export default function Event() {
     if (result) {
       getDataEvent();
     }
+  };
+
+  //
+  const resetFilter = () => {
+    setSearch("");
+    setSearchBy("Title");
+    setCondition(1);
   };
 
   // const notify = () => toast("Wow so easy!");
@@ -87,14 +100,65 @@ export default function Event() {
             </Link>
           </div>
 
-          <table className="w-full mt-10">
+          <div className="mt-10 flex items-center gap-2">
+            <select
+              className="border py-2 px-4 rounded w-[150px] border-gray-500 text-sm"
+              value={condition}
+              onChange={(e) => {
+                let targetVal = parseInt(e.target.value);
+
+                if (targetVal === 1) {
+                  setSearchBy("Title");
+                } else if (targetVal === 2) {
+                  setSearchBy("Description");
+                } else {
+                  setSearchBy("Error!");
+                }
+                setCondition(targetVal);
+              }}
+            >
+              <option value={1}>Title</option>
+              <option value={2}>Description</option>
+            </select>
+            <input
+              type="text"
+              className="border py-2 px-4 rounded w-[400px] border-gray-500 text-sm"
+              placeholder={`Search by ${searchBy}`}
+              value={search}
+              onChange={(e) => {
+                e.preventDefault();
+                let svalue = e.target.value;
+
+                setSearch(svalue);
+
+                if (svalue == "") {
+                  setSearch("");
+                }
+              }}
+              onKeyPress={(ev: React.KeyboardEvent<HTMLInputElement>) => {
+                if (ev.key === "Enter") {
+                  ev.preventDefault();
+                  setSearch((ev.target as HTMLInputElement).value);
+                }
+              }}
+            />
+            <button
+              className="flex items-center gap-2 hover:bg-gray-800 pl-3 pr-5 py-2 rounded hover:text-gray-100 border border-gray-700 text-sm"
+              onClick={resetFilter}
+            >
+              <IconRepost className="w-5" />
+              Reset
+            </button>
+          </div>
+          <table className="w-full mt-5">
             <thead className="bg-gray-800 text-gray-100">
               <tr>
                 <td className="py-3 font-semibold pl-5">No</td>
-                <td className="font-semibold px-5">Image</td>
-                <td className="font-semibold px-5 w-[200px]">Title</td>
-                <td className="font-semibold px-5 w-[500px]">Description</td>
-                <td className="font-semibold px-5">Writer</td>
+                <td className="font-semibold px-5 min-w-[150px] max-w-[150px] w-[150px]">
+                  Image
+                </td>
+                <td className="font-semibold px-5 w-[300px]">Title</td>
+                <td className="font-semibold px-5 w-[600px]">Description</td>
                 <td className="font-semibold px-5">Action</td>
               </tr>
             </thead>
@@ -124,9 +188,10 @@ export default function Event() {
                           className="object-cover rounded w-[70px] h-[70px]"
                         />
                       </td>
-                      <td className="px-5">{event.title}</td>
-                      <td className="px-5">{event.description}</td>
-                      <td className="px-5">Ilham Hafidz</td>
+                      <td className="px-5 text-gray-800">{event.title}</td>
+                      <td className="px-5 text-gray-800">
+                        {event.description}
+                      </td>
                       <td className="px-5">
                         <div className="flex gap-2">
                           <Link
@@ -154,9 +219,9 @@ export default function Event() {
                   ))
                 ) : (
                   <tr>
-                    <th className="py-3" colSpan={6}>
+                    <td className="py-3 text-center" colSpan={6}>
                       No Data
-                    </th>
+                    </td>
                   </tr>
                 )
               ) : (

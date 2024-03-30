@@ -1,10 +1,16 @@
 import axios from "axios";
 
-export const getEvent = async (page: Number) => {
+export const getEvent = async (
+  search: string,
+  page: Number,
+  condition: Number
+) => {
   try {
     let result = await axios.get(`http://127.0.0.1:8000/api/event`, {
       params: {
+        search: search,
         page: page,
+        condition: condition,
       },
     });
 
