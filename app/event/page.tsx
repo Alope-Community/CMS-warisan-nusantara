@@ -4,16 +4,13 @@ import Image from "next/image";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 
-//
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-
 //api
 import { getEvent, deleteEvent } from "@/api/Event";
 
 // components
 import Navbar from "@/components/Navbar";
 import ConfirmDelete from "@/components/ConfirmDelete";
+import Pagination from "@/components/Pagination";
 
 // icons
 import {
@@ -27,26 +24,32 @@ import {
 interface Event {
   id: number;
   title: string;
+  slug: string;
   banner: string;
   description: string;
 }
 
 export default function Event() {
   const [dataEvent, setDataEvent] = useState<Event[]>([]);
+  const [pagination, setPagination] = useState<Event[]>([]);
 
   const [loading, setLoading] = useState(true);
 
+  //
+  const [page, setPage] = useState(1);
+
   const getDataEvent = async () => {
-    let result: any = await getEvent();
+    let result: any = await getEvent(page);
     if (result) {
-      setDataEvent(result.data.data);
+      setDataEvent(result.data.data.data);
+      setPagination(result.data.data.links);
       setLoading(false);
     }
   };
 
   useEffect(() => {
     getDataEvent();
-  }, []);
+  }, [page]);
 
   // delete
   const [confirmDelete, setConfirmDelete] = useState({
@@ -102,15 +105,22 @@ export default function Event() {
                     <tr className={index % 2 == 1 ? "bg-gray-100" : ""}>
                       <td className="py-10 pl-5">{index + 1}</td>
                       <td className="px-5">
-                        <Image
+                        {/* <Image
                           src={
-                            event.banner
+                            event.banner || event.banner == "-"
                               ? `http://127.0.0.1:8000/storage/images/${event.banner}`
                               : "/img-placeholder.png"
                           }
                           width={70}
                           height={100}
-                          alt="bannerEvent"
+                          alt={`bannerEvent-${event.slug}`}
+                          className="object-cover rounded w-[70px] h-[70px]"
+                        /> */}
+                        <Image
+                          src={"/img-placeholder.png"}
+                          width={70}
+                          height={100}
+                          alt={`bannerEvent-${event.slug}`}
                           className="object-cover rounded w-[70px] h-[70px]"
                         />
                       </td>
@@ -161,6 +171,12 @@ export default function Event() {
               )}
             </tbody>
           </table>
+          <Pagination
+            links={pagination}
+            getDataEvent={(e: any) => {
+              setPage(e);
+            }}
+          />
         </section>
       </main>
 

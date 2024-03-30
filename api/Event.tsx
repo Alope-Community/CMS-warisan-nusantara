@@ -1,8 +1,12 @@
 import axios from "axios";
 
-export const getEvent = async () => {
+export const getEvent = async (page: Number) => {
   try {
-    let result = await axios.get(`http://127.0.0.1:8000/api/event`);
+    let result = await axios.get(`http://127.0.0.1:8000/api/event`, {
+      params: {
+        page: page,
+      },
+    });
 
     if (result) {
       return result;
