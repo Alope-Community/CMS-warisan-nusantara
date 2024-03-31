@@ -38,7 +38,7 @@ export default function AddEvent() {
     endedTime: "",
     fee: "",
     location: "",
-    for: "",
+    for: "all ages",
   });
 
   const [imagePlaceholder, setImagePlaceholder] = useState("");
@@ -138,7 +138,7 @@ export default function AddEvent() {
       endedTime: "",
       fee: "",
       location: "",
-      for: "",
+      for: "all ages",
     });
 
     setImagePlaceholder("");

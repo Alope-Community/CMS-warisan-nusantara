@@ -49,6 +49,18 @@ export default function EditEvent({ params }: { params: { slug: string } }) {
     for: "",
   });
 
+  const [validation, setValidation] = useState({
+    title: "",
+    description: "",
+    banner: "",
+    startedDate: "",
+    startedTime: "",
+    endedDate: "",
+    endedTime: "",
+    fee: "",
+    location: "",
+  });
+
   const getDataEventById = async () => {
     setLoadingGetData(true);
 
@@ -80,6 +92,11 @@ export default function EditEvent({ params }: { params: { slug: string } }) {
   const [imageFile, setImageFile] = useState("");
 
   const handleChange = (e: any) => {
+    setValidation({
+      ...validation,
+      banner: "",
+    });
+
     setImageFile(e.target.files[0]);
 
     if (e.target.files && e.target.files[0]) {
@@ -122,11 +139,41 @@ export default function EditEvent({ params }: { params: { slug: string } }) {
   const checkSubmit = (e: any) => {
     e.preventDefault();
 
-    const formData = new FormData();
+    let validator = {
+      title: "",
+      description: "",
+      banner: "",
+      startedDate: "",
+      startedTime: "",
+      endedDate: "",
+      endedTime: "",
+      fee: "",
+      location: "",
+    };
 
-    formData.append("image", imageFile);
+    if (!data.title) validator.title = "Title is required!";
+    if (!data.description) validator.description = "Description is required!";
+    if (!data.startedDate) validator.startedDate = "Started Date is required!";
+    if (!data.startedTime) validator.startedTime = "Started Time is required!";
+    if (!data.endedDate) validator.endedDate = "Ended Date is required!";
+    if (!data.endedTime) validator.endedTime = "Ended Time is required!";
+    if (!data.fee) validator.fee = "Fee is required!";
+    if (!data.location) validator.location = "Location is required!";
+    if (!imagePlaceholder && !imageFile)
+      validator.banner = "Banner is required!";
 
-    uploadDataFile(formData);
+    // Periksa apakah semua nilai dari kunci-kunci di objek validator kosong
+    const isAllEmpty = Object.values(validator).every((value) => value === "");
+
+    if (isAllEmpty) {
+      const formData = new FormData();
+
+      formData.append("image", imageFile);
+
+      uploadDataFile(formData);
+    } else {
+      setValidation(validator);
+    }
   };
 
   useEffect(() => {
@@ -184,7 +231,7 @@ export default function EditEvent({ params }: { params: { slug: string } }) {
       <main className="px-20 mt-10">
         <section className="shadow p-7 bg-white rounded mb-10">
           <div className="flex justify-between items-center">
-            <h2 className="text-2xl font-bold tracking-wider">Edit EVENT</h2>
+            <h2 className="text-2xl font-bold tracking-wider">EDIT EVENT</h2>
 
             <Link
               href={"/event"}
@@ -240,6 +287,9 @@ export default function EditEvent({ params }: { params: { slug: string } }) {
                   ) : (
                     ""
                   )}
+                  <small className="text-red-500 italic">
+                    {validation.banner}
+                  </small>
                 </div>
                 <div className="grid grid-cols-6 col-span-3 gap-5">
                   <div className="mb-5 col-span-6">
@@ -254,8 +304,16 @@ export default function EditEvent({ params }: { params: { slug: string } }) {
                           ...data,
                           title: e.target.value,
                         });
+
+                        setValidation({
+                          ...validation,
+                          title: "",
+                        });
                       }}
                     />
+                    <small className="text-red-500 italic">
+                      {validation.title}
+                    </small>
                   </div>
                   <div className="mb-5 col-span-6">
                     <label htmlFor="description">Description</label>
@@ -268,8 +326,16 @@ export default function EditEvent({ params }: { params: { slug: string } }) {
                           ...data,
                           description: e.target.value,
                         });
+
+                        setValidation({
+                          ...validation,
+                          description: "",
+                        });
                       }}
                     ></textarea>
+                    <small className="text-red-500 italic">
+                      {validation.description}
+                    </small>
                   </div>
                   <div className="mb-5  col-span-2">
                     <label htmlFor="fee">Fee</label>
@@ -277,14 +343,22 @@ export default function EditEvent({ params }: { params: { slug: string } }) {
                       type="text"
                       className="border px-3 py-2 rounded w-full"
                       id="fee"
-                      value={data.fee}
+                      value={data.fee ? data.fee : ""}
                       onChange={(e) => {
                         setData({
                           ...data,
                           fee: parseInt(e.target.value),
                         });
+
+                        setValidation({
+                          ...validation,
+                          fee: "",
+                        });
                       }}
                     />
+                    <small className="text-red-500 italic">
+                      {validation.fee}
+                    </small>
                   </div>
                   <div className="mb-5 col-span-2">
                     <label htmlFor="location">Location</label>
@@ -298,8 +372,16 @@ export default function EditEvent({ params }: { params: { slug: string } }) {
                           ...data,
                           location: e.target.value,
                         });
+
+                        setValidation({
+                          ...validation,
+                          location: "",
+                        });
                       }}
                     />
+                    <small className="text-red-500 italic">
+                      {validation.location}
+                    </small>
                   </div>
                   <div className="mb-5 col-span-2">
                     <label htmlFor="for">For</label>
@@ -328,9 +410,17 @@ export default function EditEvent({ params }: { params: { slug: string } }) {
                           ...data,
                           startedDate: e.target.value,
                         });
+
+                        setValidation({
+                          ...validation,
+                          startedDate: "",
+                        });
                       }}
                       className="w-full px-3 py-3 rounded bg-white border"
                     />
+                    <small className="text-red-500 italic">
+                      {validation.startedDate}
+                    </small>
                   </div>
                   <div className="mb-5 col-span-1">
                     <label htmlFor="for">Started Time</label>
@@ -342,9 +432,17 @@ export default function EditEvent({ params }: { params: { slug: string } }) {
                           ...data,
                           startedTime: e.target.value,
                         });
+
+                        setValidation({
+                          ...validation,
+                          startedTime: "",
+                        });
                       }}
                       className="w-full px-3 py-3 rounded bg-white border"
                     />
+                    <small className="text-red-500 italic">
+                      {validation.startedTime}
+                    </small>
                   </div>
 
                   <div className="mb-5 col-span-2">
@@ -357,9 +455,17 @@ export default function EditEvent({ params }: { params: { slug: string } }) {
                           ...data,
                           endedDate: e.target.value,
                         });
+
+                        setValidation({
+                          ...validation,
+                          endedDate: "",
+                        });
                       }}
                       className="w-full px-3 py-3 rounded bg-white border"
                     />
+                    <small className="text-red-500 italic">
+                      {validation.endedDate}
+                    </small>
                   </div>
                   <div className="mb-5 col-span-1">
                     <label htmlFor="for">Ended Time</label>
@@ -371,9 +477,17 @@ export default function EditEvent({ params }: { params: { slug: string } }) {
                           ...data,
                           endedTime: e.target.value,
                         });
+
+                        setValidation({
+                          ...validation,
+                          endedTime: "",
+                        });
                       }}
                       className="w-full px-3 py-3 rounded bg-white border"
                     />
+                    <small className="text-red-500 italic">
+                      {validation.endedTime}
+                    </small>
                   </div>
 
                   <div className="flex justify-end col-span-6">
