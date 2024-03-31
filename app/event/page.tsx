@@ -169,19 +169,12 @@ export default function Event() {
                     <tr className={index % 2 == 1 ? "bg-gray-100" : ""}>
                       <td className="py-10 pl-5">{index + 1}</td>
                       <td className="px-5">
-                        {/* <Image
+                        <Image
                           src={
-                            event.banner || event.banner == "-"
+                            event.banner && event.banner != "-"
                               ? `http://127.0.0.1:8000/storage/images/${event.banner}`
                               : "/img-placeholder.png"
                           }
-                          width={70}
-                          height={100}
-                          alt={`bannerEvent-${event.slug}`}
-                          className="object-cover rounded w-[70px] h-[70px]"
-                        /> */}
-                        <Image
-                          src={"/img-placeholder.png"}
                           width={70}
                           height={100}
                           alt={`bannerEvent-${event.slug}`}

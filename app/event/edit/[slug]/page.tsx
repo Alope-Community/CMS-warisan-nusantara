@@ -76,7 +76,7 @@ export default function EditEvent({ params }: { params: { slug: string } }) {
       setData({
         title: res.title,
         description: res.description,
-        banner: "",
+        banner: res.banner,
         startedDate: String(moment(started).format("YYYY-MM-DD")),
         startedTime: String(moment(started).format("hh:mm:ss")),
         endedDate: String(moment(ended).format("YYYY-MM-DD")),
@@ -85,6 +85,8 @@ export default function EditEvent({ params }: { params: { slug: string } }) {
         location: res.location,
         for: res.for,
       });
+
+      setImagePlaceholder("http://127.0.0.1:8000/storage/images/" + res.banner);
     }
   };
 
@@ -166,11 +168,15 @@ export default function EditEvent({ params }: { params: { slug: string } }) {
     const isAllEmpty = Object.values(validator).every((value) => value === "");
 
     if (isAllEmpty) {
-      const formData = new FormData();
+      if (imagePlaceholder && imageFile) {
+        const formData = new FormData();
 
-      formData.append("image", imageFile);
+        formData.append("image", imageFile);
 
-      uploadDataFile(formData);
+        uploadDataFile(formData);
+      } else {
+        updateDataEvent(data.banner);
+      }
     } else {
       setValidation(validator);
     }
