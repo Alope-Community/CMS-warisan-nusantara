@@ -96,7 +96,7 @@ export default function Event() {
               className="flex items-center gap-2 bg-gray-800 px-5 py-2 rounded text-gray-100 text-xs hover:bg-gray-700"
             >
               <IconPlus className="w-3" />
-              Add News
+              Add Event
             </Link>
           </div>
 

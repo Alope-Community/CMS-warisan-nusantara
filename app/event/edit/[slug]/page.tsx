@@ -172,6 +172,7 @@ export default function EditEvent({ params }: { params: { slug: string } }) {
         const formData = new FormData();
 
         formData.append("image", imageFile);
+        formData.append("id", params.slug);
 
         uploadDataFile(formData);
       } else {
@@ -393,7 +394,8 @@ export default function EditEvent({ params }: { params: { slug: string } }) {
                     <label htmlFor="for">For</label>
                     <select
                       id="for"
-                      className="w-full px-3 py-3 rounded bg-white border"
+                      className="w-full px-3 py-2 rounded bg-white border"
+                      value={data.for}
                       onChange={(e) => {
                         setData({
                           ...data,
