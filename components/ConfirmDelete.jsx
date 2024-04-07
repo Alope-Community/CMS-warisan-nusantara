@@ -3,7 +3,7 @@ import React from "react";
 export default function ConfirmDelete({ data, cancelDelete, deleteData }) {
   return data.title && data.id ? (
     <section className="fixed inset-0 bg-black/30 flex items-center justify-center">
-      <div className="bg-white py-6 px-10 rounded">
+      <div className="bg-white py-6 px-7 rounded  w-[400px]">
         <h4 className="text-xl font-bold mb-3">Are you sure?</h4>
         <p className="text-sm">
           The <span className="font-semibold">"{data.title}"</span> event data

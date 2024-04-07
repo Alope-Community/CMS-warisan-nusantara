@@ -1,7 +1,6 @@
-import Link from "next/link";
 import React from "react";
 
-export default function Pagination({ links, getDataEvent }) {
+export default function Pagination({ links, getDataEvent, active }) {
   return (
     links.length > 3 && (
       <div className="mb-4">
@@ -13,9 +12,18 @@ export default function Pagination({ links, getDataEvent }) {
               //   {/* {link.label} */}
               // </div>
               ""
-            ) : (
+            ) : key == active ? (
               <button
                 className="bg-gray-900 w-[38px] h-[38px] flex items-center justify-center text-white rounded"
+                onClick={() => {
+                  getDataEvent(parseInt(link.label));
+                }}
+              >
+                {link.label}
+              </button>
+            ) : (
+              <button
+                className="border border-gray-900 w-[38px] h-[38px] flex items-center justify-center text-gray-900 rounded"
                 onClick={() => {
                   getDataEvent(parseInt(link.label));
                 }}

@@ -3,7 +3,8 @@ import axios from "axios";
 export const getEvent = async (
   search: string,
   page: Number,
-  condition: Number
+  condition: Number,
+  limit: Number
 ) => {
   try {
     let result = await axios.get(`http://127.0.0.1:8000/api/event`, {
@@ -11,6 +12,7 @@ export const getEvent = async (
         search: search,
         page: page,
         condition: condition,
+        limit: limit,
       },
     });
 
