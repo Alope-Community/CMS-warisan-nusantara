@@ -87,6 +87,7 @@ export default function Event() {
     setSearch("");
     setSearchBy("Title");
     setCondition(1);
+    setLimit(10);
   };
 
   // const notify = () => toast("Wow so easy!");
@@ -219,7 +220,10 @@ export default function Event() {
                 {!loading ? (
                   dataEvent.length ? (
                     dataEvent.map((event, index) => (
-                      <tr className={index % 2 == 1 ? "bg-gray-100" : ""}>
+                      <tr
+                        className={index % 2 == 1 ? "bg-gray-100" : ""}
+                        key={index}
+                      >
                         <td className="pl-5 py-5">
                           <Image
                             src={
@@ -299,7 +303,7 @@ export default function Event() {
               </tbody>
             </table>
           </div>
-          <div className="flex justify-between items-center relative">
+          <div className="flex justify-between items-center relative mt-10 pb-5">
             <Pagination
               links={pagination}
               getDataEvent={(e: any) => {
@@ -314,17 +318,25 @@ export default function Event() {
               <select
                 className="border py-2 px-4 rounded w-[100px] border-gray-500 text-sm"
                 id="setLimit"
-                value={condition}
+                value={limit}
                 onChange={(e) => {
                   let limitVal = parseInt(e.target.value);
 
                   setLimit(limitVal);
                 }}
               >
-                <option value={10}>10</option>
-                <option value={25}>25</option>
-                <option value={50}>50</option>
-                <option value={100}>100</option>
+                <option value={10} selected={limit === 10}>
+                  10
+                </option>
+                <option value={25} selected={limit === 25}>
+                  25
+                </option>
+                <option value={50} selected={limit === 50}>
+                  50
+                </option>
+                <option value={100} selected={limit === 100}>
+                  100
+                </option>
               </select>
 
               <button
