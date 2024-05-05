@@ -2,6 +2,7 @@
 
 import React from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 export default function Login() {
   const router = useRouter();
@@ -25,11 +26,12 @@ export default function Login() {
           <p className="text-sm text-gray-200">
             Mari lestarikan ragam budaya hasil dari warisan nusantara.
           </p>
-          <button
+          <Link
+            href={"/dashboard"}
             className="flex items-center justify-center gap-2 bg-white mx-auto mt-10 py-2 px-20 rounded-full"
-            onClick={() => {
-              router.push("/dashboard");
-            }}
+            // onClick={() => {
+            //   router.push("/dashboard");
+            // }}
           >
             <svg
               viewBox="0 0 15 15"
@@ -70,7 +72,7 @@ export default function Login() {
               </defs>
             </svg>
             Masuk Dengan Google
-          </button>
+          </Link>
           <p className="mt-16 text-gray-200">
             Dowload Gratis Aplikasinya Dibawah Ini!
           </p>
