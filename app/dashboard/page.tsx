@@ -1,5 +1,8 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
+
+// api
+import { getDashboard } from "@/api/Dashboard";
 
 // Icon
 import {
@@ -83,6 +86,21 @@ export const data2 = {
 };
 
 export default function Dashboard() {
+  const [total, setTotal] = useState({
+    totalEvent: 0,
+    totalNews: 0,
+    totalUser: 0,
+  });
+  const getDataDashboard = async () => {
+    let result: any = await getDashboard();
+    if (result) {
+      setTotal(result.data.data.total);
+    }
+  };
+
+  useEffect(() => {
+    getDataDashboard();
+  }, []);
   return (
     <>
       <Navbar active={1} />
@@ -91,7 +109,7 @@ export default function Dashboard() {
           <div className="flex justify-between items-end">
             <div>
               <h1 className="font-semibold mb-3 text-lg">User</h1>
-              <p className="font-semibold">10</p>
+              <p className="font-semibold">{total.totalUser}</p>
             </div>
             <IconPeople className="w-14 h-14" />
           </div>
@@ -99,7 +117,7 @@ export default function Dashboard() {
         <div className="bg-white rounded-md p-5 shadow ">
           <div className="flex justify-between items-end">
             <div>
-              <h1 className="font-semibold mb-3 text-lg">User</h1>
+              <h1 className="font-semibold mb-3 text-lg">Writer</h1>
               <p className="font-semibold">10</p>
             </div>
             <IconInvoice className="w-14 h-14" />
@@ -109,7 +127,7 @@ export default function Dashboard() {
           <div className="flex justify-between items-end">
             <div>
               <h1 className="font-semibold mb-3 text-lg">Event</h1>
-              <p className="font-semibold">100</p>
+              <p className="font-semibold">{total.totalEvent}</p>
             </div>
             <IconCalendar className="w-14 h-14" />
           </div>
@@ -118,7 +136,7 @@ export default function Dashboard() {
           <div className="flex justify-between items-end">
             <div>
               <h1 className="font-semibold mb-3 text-lg">News</h1>
-              <p className="font-semibold">100</p>
+              <p className="font-semibold">{total.totalNews}</p>
             </div>
             <IconArchive className="w-14 h-14" />
           </div>
