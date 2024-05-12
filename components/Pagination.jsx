@@ -3,8 +3,8 @@ import React from "react";
 export default function Pagination({ links, getDataEvent, active }) {
   return (
     links.length > 3 && (
-      <div>
-        <div className="flex flex-wrap items-center gap-2 mt-8">
+      <section>
+        <div className="flex flex-wrap items-center gap-2">
           {links.map((link, key) =>
             link.label === "&laquo; Previous" ||
             link.label === "Next &raquo;" ? (
@@ -14,6 +14,7 @@ export default function Pagination({ links, getDataEvent, active }) {
               ""
             ) : key == active ? (
               <button
+                key={key}
                 className="bg-gray-900 w-[38px] h-[38px] flex items-center justify-center text-white rounded"
                 onClick={() => {
                   getDataEvent(parseInt(link.label));
@@ -23,6 +24,7 @@ export default function Pagination({ links, getDataEvent, active }) {
               </button>
             ) : (
               <button
+                key={key}
                 className="border border-gray-900 w-[38px] h-[38px] flex items-center justify-center text-gray-900 rounded"
                 onClick={() => {
                   getDataEvent(parseInt(link.label));
@@ -33,7 +35,7 @@ export default function Pagination({ links, getDataEvent, active }) {
             )
           )}
         </div>
-      </div>
+      </section>
     )
   );
 }
