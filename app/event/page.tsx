@@ -87,6 +87,7 @@ export default function Event() {
     setSearch("");
     setSearchBy("Title");
     setCondition(1);
+    setLimit(10);
   };
 
   // const notify = () => toast("Wow so easy!");
@@ -299,7 +300,7 @@ export default function Event() {
               </tbody>
             </table>
           </div>
-          <div className="flex justify-between items-center relative">
+          <div className="flex justify-between items-center relative pb-4">
             <Pagination
               links={pagination}
               getDataEvent={(e: any) => {
@@ -307,14 +308,14 @@ export default function Event() {
               }}
               active={page}
             />
-            <div className="flex justify-end items-center gap-2 absolute right-0">
+            <div className="flex justify-end items-center gap-2 absolute right-0 mt-3">
               <label htmlFor="setLimit" className="text-sm">
                 Limit :
               </label>
               <select
                 className="border py-2 px-4 rounded w-[100px] border-gray-500 text-sm"
                 id="setLimit"
-                value={condition}
+                value={limit}
                 onChange={(e) => {
                   let limitVal = parseInt(e.target.value);
 
@@ -338,6 +339,10 @@ export default function Event() {
             </div>
           </div>
         </section>
+
+        {/* <section className="fixed bg-black/30 inset-0 flex items-center justify-center">
+          <div className="bg-white w-[500px] rounded p-5">wefewf</div>
+        </section> */}
       </main>
 
       <ConfirmDelete

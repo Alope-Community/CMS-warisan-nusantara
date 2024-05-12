@@ -3,7 +3,7 @@ import React from "react";
 export default function Pagination({ links, getDataEvent, active }) {
   return (
     links.length > 3 && (
-      <div className="mb-4">
+      <div>
         <div className="flex flex-wrap items-center gap-2 mt-8">
           {links.map((link, key) =>
             link.label === "&laquo; Previous" ||
