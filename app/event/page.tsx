@@ -311,7 +311,7 @@ export default function Event() {
               }}
               active={page}
             />
-            <div className="flex justify-end items-center gap-2 absolute right-0">
+            <div className="flex justify-end items-center gap-2 absolute right-0 mt-3">
               <label htmlFor="setLimit" className="text-sm">
                 Limit :
               </label>
@@ -350,6 +350,10 @@ export default function Event() {
             </div>
           </div>
         </section>
+
+        {/* <section className="fixed bg-black/30 inset-0 flex items-center justify-center">
+          <div className="bg-white w-[500px] rounded p-5">wefewf</div>
+        </section> */}
       </main>
 
       <ConfirmDelete

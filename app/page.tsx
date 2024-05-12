@@ -1,11 +1,29 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { login } from "@/api/Auth";
 
 export default function Login() {
   const router = useRouter();
+
+  const [formData, setFormData] = useState({
+    username: "",
+    password: "",
+  });
+
+  const handleSubmit = async (e: any) => {
+    e.preventDefault();
+    let result: any = await login(formData);
+
+    if (result) {
+      if (result.data.status_code == "WN-01") {
+        console.log("sini");
+        router.push("/dashboard");
+      }
+    }
+  };
 
   return (
     <section className="flex justify-between items-center">
@@ -26,6 +44,37 @@ export default function Login() {
           <p className="text-sm text-gray-200">
             Mari lestarikan ragam budaya hasil dari warisan nusantara.
           </p>
+
+          <form onSubmit={handleSubmit}>
+            <div>
+              <input
+                type="text"
+                placeholder="username"
+                onChange={(e) => {
+                  setFormData({
+                    ...formData,
+                    username: e.target.value,
+                  });
+                }}
+              />
+            </div>
+            <div>
+              <input
+                type="password"
+                placeholder="password"
+                onChange={(e) => {
+                  setFormData({
+                    ...formData,
+                    password: e.target.value,
+                  });
+                }}
+              />
+            </div>
+            <div>
+              <button type="submit">Submit</button>
+            </div>
+          </form>
+
           <Link
             href={"/dashboard"}
             className="flex items-center justify-center gap-2 bg-white mx-auto mt-10 py-2 px-20 rounded-full"
@@ -42,7 +91,7 @@ export default function Login() {
                 width: 20,
               }}
             >
-              <g clip-path="url(#clip0_1693_8270)">
+              <g clipPath="url(#clip0_1693_8270)">
                 <path
                   d="M15.3542 8.17241C15.3542 7.66258 15.3128 7.15 15.2246 6.64844H8.15039V9.53655H12.2015C12.0334 10.468 11.4932 11.292 10.7023 11.8156V13.6896H13.1192C14.5384 12.3833 15.3542 10.4542 15.3542 8.17241Z"
                   fill="#4285F4"
