@@ -2,11 +2,10 @@
 
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
-import Link from "next/link";
 import { login } from "@/api/Auth";
 
 //
-import { IconEnvelopeFill, IconLockFill } from "@irsyadadl/paranoid";
+import { IconLockFill, IconPersonFill } from "@irsyadadl/paranoid";
 
 export default function Login() {
   const router = useRouter();
@@ -16,14 +15,42 @@ export default function Login() {
     password: "",
   });
 
+  const [error, setError] = useState({
+    message: "",
+  });
+
+  const checkValidation = () => {
+    if (formData.username && formData.password) {
+      return true;
+    }
+
+    return false;
+  };
+
   const handleSubmit = async (e: any) => {
     e.preventDefault();
+    setError({
+      ...error,
+      message: "",
+    });
+
+    if (!checkValidation()) {
+      return setError({
+        ...error,
+        message: "Username & Password are required",
+      });
+    }
+
     let result: any = await login(formData);
 
     if (result) {
       if (result.data.status_code == "WN-01") {
-        console.log("sini");
         router.push("/dashboard");
+      } else if (result.data.status_code == "WN-02") {
+        setError({
+          ...error,
+          message: result.data.message,
+        });
       }
     }
   };
@@ -38,14 +65,24 @@ export default function Login() {
               className="mx-auto mb-2 w-[70px] md:w-[50px] lg:w-[70px]"
             />
             <h2 className="text-2xl md:text-xl lg:text-2xl font-semibold">
-              ALOPE UNIVERSITY
+              Warisan Nusantara
             </h2>
           </div>
-          <form onSubmit={() => {}}>
+          <form onSubmit={handleSubmit}>
             <div className="mb-5">
               <label className="input input-bordered flex items-center gap-2">
-                <IconEnvelopeFill className="opacity-60" />
-                <input type="text" className="grow" placeholder="Email" />
+                <IconPersonFill className="opacity-60" />
+                <input
+                  type="text"
+                  className="grow"
+                  placeholder="Username"
+                  onChange={(e) => {
+                    setFormData({
+                      ...formData,
+                      username: e.target.value,
+                    });
+                  }}
+                />
               </label>
             </div>
 
@@ -56,12 +93,20 @@ export default function Login() {
                   type="password"
                   className="grow"
                   placeholder="Password"
+                  onChange={(e) => {
+                    setFormData({
+                      ...formData,
+                      password: e.target.value,
+                    });
+                  }}
                 />
               </label>
             </div>
 
             <div className="mb-10 text-right mt-1 flex justify-between">
-              <div className="text-left text-error text-sm"></div>
+              <div className="text-left text-error text-sm">
+                {error.message}
+              </div>
               <a href="" className="text-gray-600 text-[13px]">
                 Lupa password?
               </a>
