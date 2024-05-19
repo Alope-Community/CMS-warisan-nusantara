@@ -240,10 +240,7 @@ export default function EditEvent({ params }: { params: { slug: string } }) {
           <div className="flex justify-between items-center">
             <h2 className="text-2xl font-bold tracking-wider">EDIT EVENT</h2>
 
-            <Link
-              href={"/event"}
-              className="flex items-center gap-2 bg-gray-800 px-2 py-2 rounded text-gray-100 text-xs hover:bg-gray-700"
-            >
+            <Link href={"/event"} className="btn btn-neutral">
               <IconChevronLeft className="w-5" />
               Back
             </Link>
@@ -255,8 +252,10 @@ export default function EditEvent({ params }: { params: { slug: string } }) {
             <form action="" onSubmit={checkSubmit}>
               <div className="grid grid-cols-4 gap-10 mt-10 ">
                 <div className="col-span-1">
-                  <label htmlFor="banner">Banner</label>
-                  <label htmlFor="banner">
+                  <label className="label-text" htmlFor="banner">
+                    Banner
+                  </label>
+                  <label className="label-text" htmlFor="banner">
                     <img
                       src={
                         imagePlaceholder
@@ -277,12 +276,12 @@ export default function EditEvent({ params }: { params: { slug: string } }) {
                     <div className="flex gap-2 mt-5 justify-center">
                       <label
                         htmlFor="banner"
-                        className="text-xs bg-gray-800 hover:bg-gray-700 px-5 py-2 rounded text-white"
+                        className="btn btn-sm btn-neutral"
                       >
                         Change Banner
                       </label>
                       <button
-                        className="text-xs bg-red-500 hover:bg-red-400 px-5 py-2 rounded text-white"
+                        className="btn btn-sm btn-error"
                         onClick={() => {
                           setImagePlaceholder("");
                           setImageFile("");
@@ -300,10 +299,12 @@ export default function EditEvent({ params }: { params: { slug: string } }) {
                 </div>
                 <div className="grid grid-cols-6 col-span-3 gap-5">
                   <div className="mb-5 col-span-6">
-                    <label htmlFor="title">Title</label>
+                    <label className="label-text" htmlFor="title">
+                      Title
+                    </label>
                     <input
                       type="text"
-                      className="border px-3 py-2 rounded w-full"
+                      className="input input-bordered w-full"
                       id="title"
                       value={data.title}
                       onChange={(e) => {
@@ -323,9 +324,11 @@ export default function EditEvent({ params }: { params: { slug: string } }) {
                     </small>
                   </div>
                   <div className="mb-5 col-span-6">
-                    <label htmlFor="description">Description</label>
+                    <label className="label-text" htmlFor="description">
+                      Description
+                    </label>
                     <textarea
-                      className="border px-3 py-2 rounded w-full h-[150px]"
+                      className="textarea textarea-bordered h-24 w-full"
                       id="description"
                       value={data.description}
                       onChange={(e) => {
@@ -345,10 +348,12 @@ export default function EditEvent({ params }: { params: { slug: string } }) {
                     </small>
                   </div>
                   <div className="mb-5  col-span-2">
-                    <label htmlFor="fee">Fee</label>
+                    <label className="label-text" htmlFor="fee">
+                      Fee
+                    </label>
                     <input
                       type="text"
-                      className="border px-3 py-2 rounded w-full"
+                      className="input input-bordered w-full"
                       id="fee"
                       value={data.fee ? data.fee : ""}
                       onChange={(e) => {
@@ -368,10 +373,12 @@ export default function EditEvent({ params }: { params: { slug: string } }) {
                     </small>
                   </div>
                   <div className="mb-5 col-span-2">
-                    <label htmlFor="location">Location</label>
+                    <label className="label-text" htmlFor="location">
+                      Location
+                    </label>
                     <input
                       type="text"
-                      className="border px-3 py-2 rounded w-full"
+                      className="input input-bordered w-full"
                       id="location"
                       value={data.location}
                       onChange={(e) => {
@@ -391,10 +398,12 @@ export default function EditEvent({ params }: { params: { slug: string } }) {
                     </small>
                   </div>
                   <div className="mb-5 col-span-2">
-                    <label htmlFor="for">For</label>
+                    <label className="label-text" htmlFor="for">
+                      For
+                    </label>
                     <select
                       id="for"
-                      className="w-full px-3 py-2 rounded bg-white border"
+                      className="select select-bordered w-full"
                       value={data.for}
                       onChange={(e) => {
                         setData({
@@ -409,7 +418,9 @@ export default function EditEvent({ params }: { params: { slug: string } }) {
                   </div>
 
                   <div className="mb-5 col-span-2">
-                    <label htmlFor="for">Started Date</label>
+                    <label className="label-text" htmlFor="for">
+                      Started Date
+                    </label>
                     <input
                       type="date"
                       value={data.startedDate}
@@ -424,14 +435,16 @@ export default function EditEvent({ params }: { params: { slug: string } }) {
                           startedDate: "",
                         });
                       }}
-                      className="w-full px-3 py-3 rounded bg-white border"
+                      className="input input-bordered w-full"
                     />
                     <small className="text-red-500 italic">
                       {validation.startedDate}
                     </small>
                   </div>
                   <div className="mb-5 col-span-1">
-                    <label htmlFor="for">Started Time</label>
+                    <label className="label-text" htmlFor="for">
+                      Started Time
+                    </label>
                     <input
                       type="time"
                       value={data.startedTime}
@@ -446,7 +459,7 @@ export default function EditEvent({ params }: { params: { slug: string } }) {
                           startedTime: "",
                         });
                       }}
-                      className="w-full px-3 py-3 rounded bg-white border"
+                      className="input input-bordered w-full"
                     />
                     <small className="text-red-500 italic">
                       {validation.startedTime}
@@ -454,7 +467,9 @@ export default function EditEvent({ params }: { params: { slug: string } }) {
                   </div>
 
                   <div className="mb-5 col-span-2">
-                    <label htmlFor="for">Ended Date</label>
+                    <label className="label-text" htmlFor="for">
+                      Ended Date
+                    </label>
                     <input
                       type="date"
                       value={data.endedDate}
@@ -469,14 +484,16 @@ export default function EditEvent({ params }: { params: { slug: string } }) {
                           endedDate: "",
                         });
                       }}
-                      className="w-full px-3 py-3 rounded bg-white border"
+                      className="input input-bordered w-full"
                     />
                     <small className="text-red-500 italic">
                       {validation.endedDate}
                     </small>
                   </div>
                   <div className="mb-5 col-span-1">
-                    <label htmlFor="for">Ended Time</label>
+                    <label className="label-text" htmlFor="for">
+                      Ended Time
+                    </label>
                     <input
                       type="time"
                       value={data.endedTime}
@@ -491,7 +508,7 @@ export default function EditEvent({ params }: { params: { slug: string } }) {
                           endedTime: "",
                         });
                       }}
-                      className="w-full px-3 py-3 rounded bg-white border"
+                      className="input input-bordered w-full"
                     />
                     <small className="text-red-500 italic">
                       {validation.endedTime}
@@ -500,7 +517,7 @@ export default function EditEvent({ params }: { params: { slug: string } }) {
 
                   <div className="flex justify-end col-span-6">
                     <button
-                      className="flex items-center gap-2 bg-gray-800 px-5 py-2 rounded text-gray-100 hover:bg-gray-700"
+                      className="btn btn-neutral"
                       type="submit"
                       onClick={() => {
                         checkSubmit;
