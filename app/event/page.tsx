@@ -23,6 +23,7 @@ import {
   IconTrashEmpty,
   IconRepost,
   IconEye,
+  IconSearch,
 } from "@irsyadadl/paranoid";
 
 //
@@ -109,14 +110,11 @@ export default function Event() {
       <ToastContainer /> */}
 
       <main className="px-20 mt-10">
-        <section className="shadow bg-white p-7 rounded mb-10">
+        <section className="card bg-base-100 shadow-md p-7 mb-10">
           <div className="flex justify-between items-center">
             <h2 className="text-2xl font-bold tracking-wider">EVENT</h2>
 
-            <Link
-              href={"/event/add"}
-              className="flex items-center gap-2 bg-gray-800 px-5 py-2 rounded text-gray-100 text-xs hover:bg-gray-700"
-            >
+            <Link href={"/event/add"} className="btn btn-neutral">
               <IconPlus className="w-3" />
               Add Event
             </Link>
@@ -125,7 +123,7 @@ export default function Event() {
           <div className="flex justify-between items-end">
             <div className="mt-10 flex items-center gap-2">
               <select
-                className="border py-2 px-4 rounded w-[150px] border-gray-500 text-sm"
+                className="select select-bordered w-xs"
                 value={condition}
                 onChange={(e) => {
                   let targetVal = parseInt(e.target.value);
@@ -143,113 +141,81 @@ export default function Event() {
                 <option value={1}>Title</option>
                 <option value={2}>Description</option>
               </select>
-              <input
-                type="text"
-                className="border py-2 px-4 rounded w-[300px] border-gray-500 text-sm"
-                placeholder={`Search by ${searchBy}`}
-                value={search}
-                onChange={(e) => {
-                  e.preventDefault();
-                  let svalue = e.target.value;
+              <label className="input input-bordered flex items-center gap-2">
+                <input
+                  type="text"
+                  className="grow"
+                  placeholder={`Search by ${searchBy}`}
+                  value={search}
+                  onChange={(e) => {
+                    e.preventDefault();
+                    let svalue = e.target.value;
 
-                  setSearch(svalue);
+                    setSearch(svalue);
 
-                  if (svalue == "") {
-                    setSearch("");
-                  }
-                }}
-                onKeyPress={(ev: React.KeyboardEvent<HTMLInputElement>) => {
-                  if (ev.key === "Enter") {
-                    ev.preventDefault();
-                    setSearch((ev.target as HTMLInputElement).value);
-                  }
-                }}
-              />
-              <button
-                className="flex items-center gap-2 hover:bg-gray-800 pl-3 pr-5 py-1 rounded hover:text-gray-100 border border-gray-700 text-xs"
-                onClick={resetFilter}
-              >
+                    if (svalue == "") {
+                      setSearch("");
+                    }
+                  }}
+                  onKeyPress={(ev: React.KeyboardEvent<HTMLInputElement>) => {
+                    if (ev.key === "Enter") {
+                      ev.preventDefault();
+                      setSearch((ev.target as HTMLInputElement).value);
+                    }
+                  }}
+                />
+                <IconSearch />
+              </label>
+              <button className="btn btn-ghost" onClick={resetFilter}>
                 <IconRepost className="w-4" />
                 Reset
               </button>
             </div>
-            {/* <div className="mt-10 flex items-center gap-2">
-              <label htmlFor="setLimit" className="text-sm">
-                Limit :
-              </label>
-              <select
-                className="border py-2 px-4 rounded w-[100px] border-gray-500 text-sm"
-                id="setLimit"
-                value={condition}
-                onChange={(e) => {
-                  let targetVal = parseInt(e.target.value);
-
-                  if (targetVal === 1) {
-                    setSearchBy("Title");
-                  } else if (targetVal === 2) {
-                    setSearchBy("Description");
-                  } else {
-                    setSearchBy("Error!");
-                  }
-                  setCondition(targetVal);
-                }}
-              >
-                <option value={1}>10</option>
-                <option value={2}>25</option>
-                <option value={2}>50</option>
-                <option value={2}>100</option>
-              </select>
-            </div> */}
             <p className="text-sm">
               Total <b>{totalDataEvents}</b> Event
             </p>
           </div>
-          <div className="overflow-x-auto w-full mt-5">
-            <table className="w-full">
-              <thead className="bg-gray-800 text-gray-100">
+          <div className="overflow-x-auto mt-5">
+            <table className="table table-zebra">
+              <thead>
                 <tr>
-                  <td className="font-semibold py-5 px-5 min-w-[150px] max-w-[150px] w-[150px]">
-                    Image
-                  </td>
-                  <td className="font-semibold px-5">Title</td>
-                  <td className="font-semibold px-5">Description</td>
-                  <td className="font-semibold px-5">Action</td>
+                  <td>Image</td>
+                  <td>Title</td>
+                  <td>Description</td>
+                  <td>Action</td>
                 </tr>
               </thead>
               <tbody>
                 {!loading ? (
                   dataEvent.length ? (
                     dataEvent.map((event, index) => (
-                      <tr
-                        className={index % 2 == 1 ? "bg-gray-100" : ""}
-                        key={index}
-                      >
-                        <td className="pl-5 py-5">
-                          <Image
-                            src={
-                              event.banner && event.banner != "-"
-                                ? `http://127.0.0.1:8000/storage/images/${event.banner}`
-                                : "/img-placeholder.png"
-                            }
-                            width={100}
-                            height={100}
-                            alt={`bannerEvent-${event.slug}`}
-                            className="object-cover rounded w-[70px] h-[70px]"
-                          />
+                      <tr key={index} className="hover">
+                        <td>
+                          <div className="avatar">
+                            <div className="w-24 rounded">
+                              <Image
+                                alt="Banner"
+                                src={
+                                  event.banner && event.banner != "-"
+                                    ? `http://127.0.0.1:8000/storage/images/${event.banner}`
+                                    : "/img-placeholder.png"
+                                }
+                                width={60}
+                                height={60}
+                              />
+                            </div>
+                          </div>
                         </td>
-                        <td className="px-5 text-gray-800" title={event.title}>
+                        <td title={event.title}>
                           {limitString(event.title, 80, "...")}
                         </td>
-                        <td
-                          className="px-5 text-gray-800"
-                          title={event.description}
-                        >
+                        <td title={event.description}>
                           {limitString(event.description, 100, "...")}
                         </td>
-                        <td className="px-5 py-5">
+                        <td>
                           <div className="flex items-center gap-1">
                             <button
-                              className="bg-cyan-500 hover:bg-cyan-400 flex gap-1 text-gray-100 px-3 py-1 rounded text-xs items-center justify-center w-full"
+                              className="btn btn-sm btn-info text-white"
                               title="Detail"
                               onClick={() => {
                                 setConfirmDelete({
@@ -262,13 +228,13 @@ export default function Event() {
                             </button>
                             <Link
                               href={"event/edit/" + event.id}
-                              className="bg-indigo-500 hover:bg-indigo-400 flex gap-1 text-gray-100 px-3 py-1 rounded text-xs items-center justify-center w-full"
+                              className="btn btn-sm btn-primary"
                               title="Edit"
                             >
                               <IconPencilBox className="w-4" />
                             </Link>
                             <button
-                              className="bg-red-500 hover:bg-red-400 flex gap-1 text-gray-100 px-3 py-1 rounded text-xs items-center justify-center w-full"
+                              className="btn btn-sm btn-error text-white"
                               title="Delete"
                               onClick={() => {
                                 setConfirmDelete({
@@ -316,7 +282,7 @@ export default function Event() {
                 Limit :
               </label>
               <select
-                className="border py-2 px-4 rounded w-[100px] border-gray-500 text-sm"
+                className="select select-bordered select-sm"
                 id="setLimit"
                 value={limit}
                 onChange={(e) => {
@@ -340,7 +306,7 @@ export default function Event() {
               </select>
 
               <button
-                className="text-xs ml-10 bg-gray-800 text-white py-2 px-5 rounded"
+                className="btn btn-neutral btn-sm"
                 onClick={() => {
                   scrollToTop();
                 }}

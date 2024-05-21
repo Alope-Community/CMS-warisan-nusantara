@@ -15,7 +15,7 @@ export default function Pagination({ links, getDataEvent, active }) {
             ) : key == active ? (
               <button
                 key={key}
-                className="bg-gray-900 w-[38px] h-[38px] flex items-center justify-center text-white rounded"
+                className="btn btn-sm btn-neutral"
                 onClick={() => {
                   getDataEvent(parseInt(link.label));
                 }}
@@ -25,7 +25,7 @@ export default function Pagination({ links, getDataEvent, active }) {
             ) : (
               <button
                 key={key}
-                className="border border-gray-900 w-[38px] h-[38px] flex items-center justify-center text-gray-900 rounded"
+                className="btn btn-sm btn-ghost"
                 onClick={() => {
                   getDataEvent(parseInt(link.label));
                 }}
