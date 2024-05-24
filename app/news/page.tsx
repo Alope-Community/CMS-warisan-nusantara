@@ -14,96 +14,100 @@ export default function News() {
       <Navbar active={2} />
 
       <main className="px-20 mt-10">
-        <section className="shadow p-7 rounded">
+        <section className="card bg-base-100 shadow-md p-7 mb-10">
           <div className="flex justify-between items-center">
             <h2 className="text-2xl font-bold tracking-wider">NEWS</h2>
 
-            <Link
-              href={"/news/add"}
-              className="flex items-center gap-2 bg-gray-800 px-5 py-2 rounded text-gray-100 text-xs hover:bg-gray-700"
-            >
+            <Link href={"/news/add"} className="btn btn-neutral">
               <IconPlus className="w-3" />
               Add News
             </Link>
           </div>
 
-          <table className="w-full mt-10">
-            <thead className="bg-gray-800 text-gray-100">
-              <tr>
-                <td className="py-3 font-semibold pl-5">No</td>
-                <td className="font-semibold px-5">Image</td>
-                <td className="font-semibold px-5">Title</td>
-                <td className="font-semibold px-5 w-[600px]">Content</td>
-                <td className="font-semibold px-5">Writer</td>
-                <td className="font-semibold px-5">Action</td>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td className="py-10 pl-5">1</td>
-                <td className="px-5">
-                  <Image
-                    src={"/2.jpg"}
-                    width={70}
-                    height={70}
-                    alt="Avatar"
-                    className="object-cover rounded"
-                  />
-                </td>
-                <td className="px-5">Seren Taun di Cigugur</td>
-                <td className="px-5">
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Beatae, ullam voluptates corporis eligendi debitis ....
-                </td>
-                <td className="px-5">Ilham Hafidz</td>
-                <td className="px-5">
-                  <div className="flex gap-2">
-                    <button className="bg-indigo-500 flex gap-1 text-gray-100 px-3 py-1 rounded text-xs items-center">
-                      <IconPencilBox className="w-4" />
-                      Edit
-                    </button>
-                    <button className="bg-red-500 flex gap-1 text-gray-100 px-3 py-1 rounded text-xs items-center">
-                      <IconTrashEmpty className="w-4" />
-                      Delete
-                    </button>
-                  </div>
-                </td>
-              </tr>
-              <tr className="bg-gray-100">
-                <td className="py-10 pl-5">2</td>
-                <td className="px-5">
-                  <Image
-                    src={"/2.jpg"}
-                    width={70}
-                    height={70}
-                    alt="Avatar"
-                    className="object-cover rounded"
-                  />
-                </td>
-                <td className="px-5">Seren Taun di Cigugur</td>
-                <td className="px-5">
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Beatae, ullam voluptates corporis eligendi debitis ....
-                </td>
-                <td className="px-5">Ilham Hafidz</td>
-                <td className="px-5">
-                  <div className="flex gap-2">
-                    <Link
-                      href={"/news/edit"}
-                      className="bg-indigo-500 flex gap-1 text-gray-100 px-3 py-1 rounded text-xs items-center"
-                    >
-                      <IconPencilBox className="w-4" />
-                      Edit
-                    </Link>
-                    <button className="bg-red-500 flex gap-1 text-gray-100 px-3 py-1 rounded text-xs items-center">
-                      <IconTrashEmpty className="w-4" />
-                      Delete
-                    </button>
-                  </div>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+          <div className="overflow-x-auto mt-5">
+            <table className="table table-zebra">
+              {/* head */}
+              <thead>
+                <tr>
+                  <th>Image</th>
+                  <th>Title</th>
+                  <th>Content</th>
+                  <th>Writter</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                {/* row 1 */}
+                <tr className="hover">
+                  <td>
+                    <div className="avatar">
+                      <div className="w-24 rounded">
+                        {" "}
+                        <Image
+                          src={"/img-placeholder.png"}
+                          width={60}
+                          height={60}
+                          alt="Avatar"
+                          className="object-cover rounded"
+                        />
+                      </div>
+                    </div>
+                  </td>
+                  <td>seren taun cigugur</td>
+                  <td>
+                    Lorem ipsum dolor sit amet consectetur, adipisicing elit.
+                    Similique aut, praesentium voluptatum dignissimos temporibus
+                    error?
+                  </td>
+                  <td>Ilham Hafidz</td>
+                  <td>
+                    <div className="flex items-center gap-1">
+                      <button className="btn btn-sm btn-primary text-white">
+                        <IconPencilBox className="w-4" />
+                      </button>
+                      <button className="btn btn-sm btn-error text-white">
+                        <IconTrashEmpty className="w-4" />
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+                {/* row 2 */}
+                <tr className="hover">
+                  <td>
+                    <div className="avatar">
+                      <div className="w-24 rounded">
+                        {" "}
+                        <Image
+                          src={"/img-placeholder.png"}
+                          width={60}
+                          height={60}
+                          alt="Avatar"
+                          className="object-cover rounded"
+                        />
+                      </div>
+                    </div>
+                  </td>
+                  <td>seren taun cigugur</td>
+                  <td>
+                    Lorem ipsum dolor sit amet consectetur, adipisicing elit.
+                    Similique aut, praesentium voluptatum dignissimos temporibus
+                    error?
+                  </td>
+                  <td>Ilham Hafidz</td>
+                  <td>
+                    <div className="flex items-center gap-1">
+                      <button className="btn btn-sm btn-primary text-white">
+                        <IconPencilBox className="w-4" />
+                      </button>
+                      <button className="btn btn-sm btn-error text-white">
+                        <IconTrashEmpty className="w-4" />
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </section>
       </main>
     </>
