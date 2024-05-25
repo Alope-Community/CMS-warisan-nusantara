@@ -214,18 +214,13 @@ export default function Event() {
                         </td>
                         <td>
                           <div className="flex items-center gap-1">
-                            <button
+                            <Link
                               className="btn btn-sm btn-info text-white"
                               title="Detail"
-                              onClick={() => {
-                                setConfirmDelete({
-                                  id: event.id,
-                                  title: event.title,
-                                });
-                              }}
+                              href={`/event/${event.slug}`}
                             >
                               <IconEye className="w-4" />
-                            </button>
+                            </Link>
                             <Link
                               href={"event/edit/" + event.id}
                               className="btn btn-sm btn-primary"

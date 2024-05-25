@@ -22,6 +22,7 @@ export default function RootLayout({
       <body
         style={{
           backgroundColor: "#f9fafb",
+          minHeight: "100vh",
         }}
         // className={inter.className}
       >
