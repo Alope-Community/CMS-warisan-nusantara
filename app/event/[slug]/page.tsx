@@ -1,4 +1,5 @@
-import Navbar from "@/components/Navbar";
+"use client";
+import React, { useEffect, useState } from "react";
 import {
   IconChevronLeft,
   IconDateTime,
@@ -8,9 +9,39 @@ import {
 } from "@irsyadadl/paranoid";
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
+
+import Navbar from "@/components/Navbar";
+
+// api
+import { getEventById } from "@/api/Event";
+
+// tools
+import { formatDateD_FM_FY_mmss } from "./../../../tools/dateFormatter";
+import formatRupiah from "@/tools/formatToRupiah";
 
 export default function DetailEvent() {
+  const [data, setData] = useState({
+    title: "",
+    description: "",
+    banner: "",
+    started: "",
+    ended: "",
+    fee: 0,
+    location: "",
+    for: "",
+  });
+
+  const getDataEventById = async () => {
+    let result: any = await getEventById(1);
+    if (result) {
+      setData(result.data.data);
+    }
+  };
+
+  useEffect(() => {
+    getDataEventById();
+  }, []);
+
   return (
     <>
       <Navbar active={3} />
@@ -40,13 +71,10 @@ export default function DetailEvent() {
                   height={100}
                   className="!w-full !h-[400px] object-cover rounded-lg"
                 />
-                <h2 className="text-2xl font-semibold mt-5">Ini Judul Event</h2>
-                <p>
-                  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eum
-                  nostrum, veniam odit dolorum quidem, dolores maiores ipsam
-                  natus atque eaque illum aliquid quisquam dignissimos maxime
-                  voluptatibus vitae aliquam repellendus exercitationem.
-                </p>
+                <h2 className="text-2xl font-semibold mt-5 mb-3">
+                  {data.title}
+                </h2>
+                <p>{data.description}</p>
               </div>
               <div className="pt-10">
                 <table className="table table-zebra">
@@ -61,28 +89,28 @@ export default function DetailEvent() {
                         <IconDateTime />
                       </th>
                       <td>Waktu Event</td>
-                      <td>13 sep 2023 18:30</td>
+                      <td>{formatDateD_FM_FY_mmss(data.started)}</td>
                     </tr>
                     <tr>
                       <th>
                         <IconUnlocked />
                       </th>
                       <td>Event Untuk</td>
-                      <td>13 sep 2023 18:30</td>
+                      <td>{data.for}</td>
                     </tr>
                     <tr>
                       <th>
                         <IconLocation />
                       </th>
                       <td>Lokasi Event</td>
-                      <td>13 sep 2023 18:30</td>
+                      <td>{data.location}</td>
                     </tr>
                     <tr>
                       <th>
                         <IconTicket />
                       </th>
                       <td>Tiket Masuk</td>
-                      <td>13 sep 2023 18:30</td>
+                      <td>{formatRupiah(data.fee)}</td>
                     </tr>
                   </tbody>
                 </table>
