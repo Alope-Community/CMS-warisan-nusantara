@@ -105,37 +105,37 @@ export default function Dashboard() {
     <>
       <Navbar active={1} />
       <section className="grid grid-cols-4 gap-10 px-20 mt-10">
-        <div className="bg-white rounded-md p-5 shadow ">
-          <div className="flex justify-between items-end">
+        <div className="card bg-base-100 shadow-md rounded-lg p-4">
+          <div className="flex justify-between items-center">
             <div>
-              <h1 className="font-semibold mb-3 text-lg">User</h1>
+              <h1 className="card-title text-lg font-bold">User</h1>
               <p className="font-semibold">{total.totalUser}</p>
             </div>
             <IconPeople className="w-14 h-14" />
           </div>
         </div>
-        <div className="bg-white rounded-md p-5 shadow ">
-          <div className="flex justify-between items-end">
+        <div className="card bg-base-100 shadow-md rounded-lg p-4">
+          <div className="flex justify-between items-center">
             <div>
-              <h1 className="font-semibold mb-3 text-lg">Writer</h1>
+              <h1 className="card-title text-lg font-bold">Writer</h1>
               <p className="font-semibold">10</p>
             </div>
             <IconInvoice className="w-14 h-14" />
           </div>
         </div>
-        <div className="bg-white rounded-md p-5 shadow ">
-          <div className="flex justify-between items-end">
+        <div className="card bg-base-100 shadow-md rounded-lg p-4">
+          <div className="flex justify-between items-center">
             <div>
-              <h1 className="font-semibold mb-3 text-lg">Event</h1>
+              <h1 className="card-title text-lg font-bold">Event</h1>
               <p className="font-semibold">{total.totalEvent}</p>
             </div>
             <IconCalendar className="w-14 h-14" />
           </div>
         </div>
-        <div className="bg-white rounded-md p-5 shadow ">
-          <div className="flex justify-between items-end">
+        <div className="card bg-base-100 shadow-md rounded-lg p-4">
+          <div className="flex justify-between items-center">
             <div>
-              <h1 className="font-semibold mb-3 text-lg">News</h1>
+              <h1 className="card-title text-lg font-bold">News</h1>
               <p className="font-semibold">{total.totalNews}</p>
             </div>
             <IconArchive className="w-14 h-14" />

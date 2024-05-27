@@ -12,21 +12,26 @@ export default function NewsAdd() {
     <>
       <Navbar active={2} />
       <main className="px-20 mt-10">
-        <section className="shadow-xl p-7 bg-white rounded mb-10">
+        <section className="card bg-base-100 shadow-md p-7 mb-10">
           <div className="flex justify-between items-center">
-            <h2 className="font-bold">ADD NEWS</h2>
-            <Link
-              href={"/news"}
-              className="bg-gray-900 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-none flex gap-2"
-            >
-              <IconArrowLeft />
+            <h2 className="text-2xl font-bold tracking-wider">ADD NEWS</h2>
+            <Link href={"/news"} className="btn btn-neutral">
+              <IconArrowLeft className="w-5" />
               back
             </Link>
           </div>
           <div className="grid grid-cols-3 gap-4">
             <div className="">
-              <h2 className="mb-2">Banner</h2>
-              <img src="/img-placeholder.png" alt="" className="w" />
+              <label className="label-text" htmlFor="banner">
+                Banner
+              </label>
+              <label htmlFor="banner">
+                <img
+                  src={"/img-placeholder.png"}
+                  alt="bannerEvent"
+                  className="rounded cursor-pointer w-[700px] h-[300px] object-cover mx-auto"
+                />
+              </label>
             </div>
             <div className="col-span-2">
               <div className="mb-5">
@@ -53,7 +58,7 @@ export default function NewsAdd() {
                   id="writer"
                 />
               </div>
-              <button className="bg-gray-900 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">
+              <button className="btn btn-neutral">
                 submit
               </button>
             </div>
