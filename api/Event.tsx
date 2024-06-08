@@ -49,6 +49,8 @@ export const insertEvent = async (data: any, fileName: String) => {
       fee: data.fee,
       location: data.location,
       for: data.for,
+      lat: data.marker.lat,
+      lng: data.marker.lng,
     });
     if (result) {
       return result;
