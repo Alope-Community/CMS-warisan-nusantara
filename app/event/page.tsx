@@ -335,6 +335,6 @@ export default function Event() {
           deleteDataEvent();
         }}
       />
-    </>
+    </> 
   );
 }
