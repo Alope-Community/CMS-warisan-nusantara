@@ -85,13 +85,10 @@ export default function DetailEvent({ params }: { params: { slug: string } }) {
               <div>
                 <div className="rounded-md overflow-hidden w-full col-span-6">
                   <iframe
-                    src={`https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d63371.981214212385!2d${data.longitude}!3d${data.latitude}!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e68e89dbe0ec231%3A0x177412aac90cd065!2sAlun-alun%20Kota%20Bandung!5e0!3m2!1sid!2sid!4v1717851947581!5m2!1sid!2sid`}
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d63368.913786928504!2d108.4005254933701!3d-6.943412765018405!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e6f1631a2e8c157%3A0x4170001fab845472!2sKec.%20Cigugur%2C%20Kabupaten%20Kuningan%2C%20Jawa%20Barat!5e0!3m2!1sid!2sid!4v1717921383604!5m2!1sid!2sid"
                     width="600"
-                    height="450"
-                    allowFullScreen={true}
+                    height="400"
                     loading="lazy"
-                    referrerPolicy="no-referrer-when-downgrade"
-                    title="Google Maps"
                   ></iframe>
                 </div>
                 <table className="table table-zebra">

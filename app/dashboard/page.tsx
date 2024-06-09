@@ -56,7 +56,7 @@ export const data = {
     {
       label: "Event",
       data: [65, 59, 80, 81, 56, 55],
-      backgroundColor: "rgba(255, 99, 132, 0.5)",
+      backgroundColor: "rgb(239 68 68)",
     },
   ],
 };
@@ -80,7 +80,7 @@ export const data2 = {
     {
       label: "News",
       data: [65, 59, 80, 81, 56, 55],
-      backgroundColor: "rgba(255, 99, 132, 0.5)",
+      backgroundColor: "rgb(239 68 68)",
     },
   ],
 };
