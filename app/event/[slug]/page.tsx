@@ -19,7 +19,7 @@ import { getEventById } from "@/api/Event";
 import { formatDateD_FM_FY_mmss } from "./../../../tools/dateFormatter";
 import formatRupiah from "@/tools/formatToRupiah";
 
-export default function DetailEvent() {
+export default function DetailEvent({ params }: { params: { slug: string } }) {
   const [data, setData] = useState({
     title: "",
     description: "",
@@ -34,7 +34,7 @@ export default function DetailEvent() {
   });
 
   const getDataEventById = async () => {
-    let result: any = await getEventById(12);
+    let result: any = await getEventById(params.slug);
     if (result) {
       setData(result.data.data);
     }
@@ -42,7 +42,7 @@ export default function DetailEvent() {
 
   useEffect(() => {
     getDataEventById();
-  }, []);
+  }, [params.slug]);
 
   return (
     <>
@@ -68,7 +68,11 @@ export default function DetailEvent() {
               <div className="col-span-2">
                 <Image
                   alt="banner"
-                  src={"/img-placeholder.png"}
+                  src={
+                    data.banner && data.banner != "-"
+                      ? `http://127.0.0.1:8000/storage/images/${data.banner}`
+                      : "/img-placeholder.png"
+                  }
                   width={100}
                   height={100}
                   className="!w-full !h-[400px] object-cover rounded-lg"
@@ -78,7 +82,7 @@ export default function DetailEvent() {
                 </h2>
                 <p>{data.description}</p>
               </div>
-              <div className="pt-10">
+              <div>
                 <div className="rounded-md overflow-hidden w-full col-span-6">
                   <iframe
                     src={`https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d63371.981214212385!2d${data.longitude}!3d${data.latitude}!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e68e89dbe0ec231%3A0x177412aac90cd065!2sAlun-alun%20Kota%20Bandung!5e0!3m2!1sid!2sid!4v1717851947581!5m2!1sid!2sid`}

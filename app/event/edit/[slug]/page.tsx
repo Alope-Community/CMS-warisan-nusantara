@@ -64,7 +64,7 @@ export default function EditEvent({ params }: { params: { slug: string } }) {
   const getDataEventById = async () => {
     setLoadingGetData(true);
 
-    let result = (await getEventById(parseInt(params.slug))) as apiResponse;
+    let result = (await getEventById(params.slug)) as apiResponse;
     if (result) {
       setLoadingGetData(false);
 
@@ -115,7 +115,7 @@ export default function EditEvent({ params }: { params: { slug: string } }) {
   const updateDataEvent = async (fileName: String) => {
     isLoading(true);
 
-    let result = await updateEvent(data, parseInt(params.slug), fileName);
+    let result = await updateEvent(data, params.slug, fileName);
     if (result) {
       isLoading(false);
       router.push("/event");

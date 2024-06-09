@@ -105,7 +105,7 @@ export default function Dashboard() {
     <>
       <Navbar active={1} />
       <section className="grid grid-cols-4 gap-10 px-20 mt-10">
-        <div className="card bg-base-100 shadow-md rounded-lg p-4">
+        <div className="card bg-base-100 shadow rounded-lg p-4">
           <div className="flex justify-between items-center">
             <div>
               <h1 className="card-title text-lg font-bold">User</h1>
@@ -114,7 +114,7 @@ export default function Dashboard() {
             <IconPeople className="w-14 h-14" />
           </div>
         </div>
-        <div className="card bg-base-100 shadow-md rounded-lg p-4">
+        <div className="card bg-base-100 shadow rounded-lg p-4">
           <div className="flex justify-between items-center">
             <div>
               <h1 className="card-title text-lg font-bold">Writer</h1>
@@ -123,7 +123,7 @@ export default function Dashboard() {
             <IconInvoice className="w-14 h-14" />
           </div>
         </div>
-        <div className="card bg-base-100 shadow-md rounded-lg p-4">
+        <div className="card bg-base-100 shadow rounded-lg p-4">
           <div className="flex justify-between items-center">
             <div>
               <h1 className="card-title text-lg font-bold">Event</h1>
@@ -132,7 +132,7 @@ export default function Dashboard() {
             <IconCalendar className="w-14 h-14" />
           </div>
         </div>
-        <div className="card bg-base-100 shadow-md rounded-lg p-4">
+        <div className="card bg-base-100 shadow rounded-lg p-4">
           <div className="flex justify-between items-center">
             <div>
               <h1 className="card-title text-lg font-bold">News</h1>

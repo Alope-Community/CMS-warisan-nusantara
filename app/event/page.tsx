@@ -222,7 +222,7 @@ export default function Event() {
                               <IconEye className="w-4" />
                             </Link>
                             <Link
-                              href={"event/edit/" + event.id}
+                              href={"event/edit/" + event.slug}
                               className="btn btn-sm btn-primary"
                               title="Edit"
                             >
@@ -335,6 +335,6 @@ export default function Event() {
           deleteDataEvent();
         }}
       />
-    </> 
+    </>
   );
 }

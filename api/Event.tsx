@@ -24,9 +24,9 @@ export const getEvent = async (
   }
 };
 
-export const getEventById = async (id: Number) => {
+export const getEventById = async (slug: string) => {
   try {
-    let result = await axios.get(`http://127.0.0.1:8000/api/event/${id}`);
+    let result = await axios.get(`http://127.0.0.1:8000/api/event/${slug}`);
 
     if (result) {
       return result;
@@ -60,9 +60,13 @@ export const insertEvent = async (data: any, fileName: String) => {
   }
 };
 
-export const updateEvent = async (data: any, id: Number, fileName: String) => {
+export const updateEvent = async (
+  data: any,
+  slug: string,
+  fileName: String
+) => {
   try {
-    let result = await axios.patch(`http://127.0.0.1:8000/api/event/${id}`, {
+    let result = await axios.patch(`http://127.0.0.1:8000/api/event/${slug}`, {
       title: data.title,
       description: data.description,
       banner: fileName,
